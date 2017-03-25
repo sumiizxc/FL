@@ -1,88 +1,59 @@
-# статистик хэрэглээний програм семинар 6 
-# Дасгал 38
-X = rnorm(1)
-shinjuur <- function(x){
-  if(X>=0)
-  {
-    if(X>0)
-    {
-      return(("Positive"))
-    }
-    else{
-      return(("Zero"))
-    }
-  }
-  else{
-    return(("Negative"))
-  }
-}
-shinjuur(X)
-
-#Дасгал 39
-data1=read.csv(file ="C:/Users/Dell/Downloads/heptathlon.csv", header = TRUE)
-X = data1$longjump
-m= 6.15
-k=0;
-Sign.number <- function(X,m){
-  n = length(X)
-  
-  for(i in 1:n){
-    if(X[i]> m)
-    {
-      k=k+1
-    }
-  }
-  return(k)
-}
-
-#Дасгал 40
-
-'%compare%'<-function(x,y){
-  if(x==y) {
-    return(TRUE)
-  }else{
-    return(FALSE)
-  }
-}
-'%compare%'(1,1)
-'%compare%'(1,2)
-
-#Дасгал 41.A
-X = rnorm(25)
-des.stat <- function(x){
-  list("min" = min(X), "max" = max(X), "median" = median(X), "mean" = mean(x))
-}
-
-#Дасгал 41.B
-birth.male = c(103.9, 102.6, 105.7, 102, 104.2, 103, 104.2, 103.1, 104.1, 102.5, 104.3, 104.5, 103.6, 106.1, 106.1)
-X = birth.male
-des.stat(X)
-
-
-#Дасгал 42
-f = function(){
-  g = function(){
-    print("hello")
-  }
-  g()
-  print("world")
-}
-f() # энд 3 хүрээлэл байна
-
-
-#Дасгал 43
-
-clVar <- function()
+# Олон хүчин зүйлсийн утга Семинар 6 дасгал 26
+x1 = matrix(c(0.16, -1.72, 3, 4.65, 2.42, 0.37, 0.61, -0.38, 2.95, 0.14, 1.54, -2.29, 0.81, -2.81, 0.55, -2.20, 0.65, -1.12, 1.32, -1.2), ncol = 2, byrow = TRUE)
+x2 = matrix(c(0.96, 0.73, 2.56, 1.91, -0.06, 0.31, -0.03, -3.40, 1.48, 2.74, 1.75, 0.40, 1.17, 1.58, 1.20, -0.34), ncol = 2, byrow = TRUE)
+S1 = cov(x1)
+S2 = cov(x2)
+p = dim(x1)[2]
+n1 = dim(x1)[1]
+n2 = dim(x2)[1]
+n = n1+n2
+S = (n1*S1+n2*S2)/(n)
+if((n*log(det(S))-(n1*log(det(S1))+n2*log(det(S2))) < qchisq(p = 0.05, df = (1/2)*(2-1)*(p+1)*p))==TRUE)
 {
-  env <- parent.frame()
-  rm(
-    list = setdiff( ls(all.names=TRUE, env = env), lsf.str(all.names=TRUE, env = env)),
-    envir = env
-  )
+  print("Баяр хүргье таны ковариацын матриц тэнцүү байна гэсэн таамаглал үнэн байна")
+}else{
+  print("Таамаглал худал байна")
+}
+
+# Дасгал 27
+x1_m= colMeans(x1)
+x2_m= colMeans(x2)
+S1 = cov(x1)
+S2 = cov(x2)
+p = dim(x1)[2]
+n1 = dim(x1)[1]
+n2 = dim(x2)[1]
+n = n1+n2
+S = (n1*S1+n2*S2)/(n)
+if(t(x1_m -x2_m)%*% solve((S1/n1) + (S2/n2))%*%(x1_m - x2_m) < qchisq(p = 0.05, df = p))
+{
+  print("Баяр хүргье таны таамаглал 9-г хүлээж авлаа")
+}else{
+  print("Баяр хүргье нь таны таамаглал няцаагдлаа")
+}
+
+#Дасгал 28
+n1 = 15
+n2 = 25
+x1_m = matrix(c(2,3), ncol = 1, byrow = TRUE)
+x2_m = matrix(c(2,1), ncol = 1, byrow = TRUE)
+S1 = matrix(c(2, 2/3, 2/3, 2), ncol = 2, byrow = TRUE)
+S2 = matrix(c(2, 1/3, 1/3, 2), ncol = 2, byrow = TRUE)
+#case1 Ковариацын матрициуд адил гэж тооцно
+n = n1+n2
+p = 2
+if((n*log(det(S)) - (n1*log(det(S1)) + n2*log(det(S2)))) < qchisq(p = 0.05, df = (1/2)*2*p*(p+1)))
+   {
+     print("Баяр хүргье таны таамаглал үнэн байна")
+}else{
+  print("Баяр хүргье байна таны таамаглал няцаагдлаа")
+}
+#case2 Ковариацын матриц ялгаатай үед
+if(t(x1_m - x2_m)%*%solve((S1/n1)+(S2/n2))%*%(x1_m - x2_m) < qchisq(p=0.05, df=p))
+{
+  print("Таамаглал үнэн байна")
+}else{
+  print("Таамаглал няцаагдлаа")
 }
 
 
-rm(list = setdiff(ls(), lsf.str()))
-
-
-rm(list=ls())
